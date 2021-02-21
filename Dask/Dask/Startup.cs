@@ -40,7 +40,7 @@ namespace Dask
             services.AddControllersWithViews();
             services.AddRazorPages();
             //      services.AddAutoMapper(typeof(Startup));
-            //     services.AddScoped<EfCoreAdvertRepository>();
+            //     services.AddScoped<EfCoreSurveysRepository>();
             //     services.AddScoped<EfCoreGameCharacterRepository>();
             //     services.AddScoped<IManageAdvertsService, ManageAdvertsService>();
             //     services.AddScoped<IManageGameCharacterService, ManageGameCharacterService>();
