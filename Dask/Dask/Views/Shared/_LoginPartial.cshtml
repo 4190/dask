@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Dask.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item">
+                <a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="Profile" title="Profile">Hello @UserManager.GetUserName(User)!</a>
+            </li>
+            <li class="nav-item">
+                <button type="submit" class="btn btn-primary">Wyloguj</button>
+            </li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li class="nav-item"><a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="Register">Rejestracja</a></li>
+        <li class="nav-item"><a class="btn btn-primary" asp-controller="Account" asp-action="Login">Logowanie</a></li>
+    </ul>
+}
