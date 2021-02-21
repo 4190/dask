@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Dask.Data;
+using Dask.Data.EfCore;
 using Dask.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,7 +41,7 @@ namespace Dask
             services.AddControllersWithViews();
             services.AddRazorPages();
             //      services.AddAutoMapper(typeof(Startup));
-            //     services.AddScoped<EfCoreSurveysRepository>();
+                 services.AddScoped<EfCoreSurveysRepository>();
             //     services.AddScoped<EfCoreGameCharacterRepository>();
             //     services.AddScoped<IManageAdvertsService, ManageAdvertsService>();
             //     services.AddScoped<IManageGameCharacterService, ManageGameCharacterService>();

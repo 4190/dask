@@ -11,6 +11,8 @@ using Microsoft.Extensions.Logging;
 
 using Dask.AccountViewModels;
 using Dask.Models;
+using Dask.Services;
+
 
 namespace Dask.Controllers
 {
@@ -36,11 +38,6 @@ namespace Dask.Controllers
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
-        }
-
-        public IActionResult Index()
-        {
-            return View();
         }
 
         private IActionResult RedirectToLocal(string returnUrl)
