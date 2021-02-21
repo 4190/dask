@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Dask.Data;
 using Dask.Data.EfCore;
 using Dask.Models;
+using Dask.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -43,7 +44,7 @@ namespace Dask
             //      services.AddAutoMapper(typeof(Startup));
                  services.AddScoped<EfCoreSurveysRepository>();
             //     services.AddScoped<EfCoreGameCharacterRepository>();
-            //     services.AddScoped<IManageAdvertsService, ManageAdvertsService>();
+            services.AddScoped<IManageSurveysService, ManageSurveysService>();
             //     services.AddScoped<IManageGameCharacterService, ManageGameCharacterService>();
 
             services.Configure<IdentityOptions>(options =>
