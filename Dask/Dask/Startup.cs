@@ -42,10 +42,9 @@ namespace Dask
             services.AddControllersWithViews();
             services.AddRazorPages();
             //      services.AddAutoMapper(typeof(Startup));
-                 services.AddScoped<EfCoreSurveysRepository>();
-            //     services.AddScoped<EfCoreGameCharacterRepository>();
+            services.AddScoped<EfCoreSurveysRepository>();
             services.AddScoped<IManageSurveysService, ManageSurveysService>();
-            //     services.AddScoped<IManageGameCharacterService, ManageGameCharacterService>();
+
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -115,18 +114,26 @@ namespace Dask
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            IdentityResult roleResult;
             var roleCheck = await RoleManager.RoleExistsAsync("Admin");
             var userRoleCheck = await RoleManager.RoleExistsAsync("User");
             if (!roleCheck)
             {
                 //here in this line we are creating admin role and seed it to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
+                 await RoleManager.CreateAsync(new IdentityRole("Admin"));
             }
             if (!userRoleCheck)
             {
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("User"));
+                 await RoleManager.CreateAsync(new IdentityRole("User"));
             }
+
+            await CreateAdminAccountIfDoesntExist(serviceProvider);
+
+
+        }
+
+        private async Task CreateAdminAccountIfDoesntExist(IServiceProvider serviceProvider)
+        {
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             if (await UserManager.FindByNameAsync("admin@gmail.com") != null)
             {
