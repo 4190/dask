@@ -52,21 +52,21 @@ namespace Dask
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireDigit = Convert.ToBoolean(configDictionary["passwordRequireDigit"]);
+                options.Password.RequireLowercase = Convert.ToBoolean(configDictionary["passwordRequireLowercase"]);
+                options.Password.RequireNonAlphanumeric = Convert.ToBoolean(configDictionary["passwordRequireNonAlphanumeric"]);
+                options.Password.RequireUppercase = Convert.ToBoolean(configDictionary["passwordRequireUppercase"]);
+                options.Password.RequiredLength = int.Parse(configDictionary["passwordRequiredLength"]);
+                options.Password.RequiredUniqueChars = int.Parse(configDictionary["passwordRequiredUniqueChars"]);
 
                 // Lockout settings.
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(Convert.ToDouble(configDictionary["defaultLockoutTimeSpan"]));
+                options.Lockout.MaxFailedAccessAttempts = int.Parse(configDictionary["maxFailedAccessAttempts"]);
+                options.Lockout.AllowedForNewUsers = Convert.ToBoolean(configDictionary["lockoutAllowedForNewUsers"]);
 
                 // User settings.
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = false;
+                options.User.AllowedUserNameCharacters = configDictionary["allowedUserNameCharacters"];
+                options.User.RequireUniqueEmail = Convert.ToBoolean(configDictionary["requireUniqueEmail"]);
             });
             services.ConfigureApplicationCookie(options =>
             {
