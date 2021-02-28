@@ -14,9 +14,9 @@ namespace Dask.AccountViewModels
         public string UserName { get; set; }
 
 
-        //[EmailAddress]
-        //[Display(Name = "Email")]
-        //public string Email { get; set; }
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -28,5 +28,11 @@ namespace Dask.AccountViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+      
+
+
+
+
     }
 }
