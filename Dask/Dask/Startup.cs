@@ -15,6 +15,8 @@ using Dask.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Dask
 {
@@ -26,6 +28,7 @@ namespace Dask
         }
 
         public IConfiguration Configuration { get; }
+        public Dictionary<string, string> configDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("startupConfig.json"));
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -42,10 +45,9 @@ namespace Dask
             services.AddControllersWithViews();
             services.AddRazorPages();
             //      services.AddAutoMapper(typeof(Startup));
-                 services.AddScoped<EfCoreSurveysRepository>();
-            //     services.AddScoped<EfCoreGameCharacterRepository>();
+            services.AddScoped<EfCoreSurveysRepository>();
             services.AddScoped<IManageSurveysService, ManageSurveysService>();
-            //     services.AddScoped<IManageGameCharacterService, ManageGameCharacterService>();
+
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -78,9 +80,9 @@ namespace Dask
             });
         }
 
-            // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
-            {
+        {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -115,33 +117,41 @@ namespace Dask
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            IdentityResult roleResult;
             var roleCheck = await RoleManager.RoleExistsAsync("Admin");
             var userRoleCheck = await RoleManager.RoleExistsAsync("User");
             if (!roleCheck)
             {
                 //here in this line we are creating admin role and seed it to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
+                await RoleManager.CreateAsync(new IdentityRole("Admin"));
             }
             if (!userRoleCheck)
             {
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("User"));
+                await RoleManager.CreateAsync(new IdentityRole("User"));
             }
 
-            if (await UserManager.FindByNameAsync("admin@gmail.com") != null)
+            await CreateAdminAccountIfDoesntExist(serviceProvider);
+
+
+        }
+
+        private async Task CreateAdminAccountIfDoesntExist(IServiceProvider serviceProvider)
+        {
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            if (await UserManager.FindByNameAsync(configDictionary["adminUserName"]) != null)
             {
-                ApplicationUser user = await UserManager.FindByNameAsync("admin@gmail.com");
-                await UserManager.AddToRoleAsync(user, "Admin");
+                ApplicationUser user = await UserManager.FindByNameAsync(configDictionary["adminUserName"]);
+                await UserManager.AddToRoleAsync(user, configDictionary["adminRoleName"]);
             }
             else
             {
                 ApplicationUser adminUser = new ApplicationUser()
                 {
-                    UserName = "admin@gmail.com",
-                    Email = "admin@gmail.com"
+                    UserName = configDictionary["adminUserName"],
+                    Email = configDictionary["adminUserEmail"]
                 };
-                await UserManager.CreateAsync(adminUser, "admin1");
-                await UserManager.AddToRoleAsync(adminUser, "Admin");
+                await UserManager.CreateAsync(adminUser, configDictionary["adminPassword"]);
+                await UserManager.AddToRoleAsync(adminUser, configDictionary["adminRoleName"]);
             }
         }
     }
