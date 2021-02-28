@@ -1,3 +1,4 @@
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace Dask
                 .AddRoles<IdentityRole>();
             services.AddControllersWithViews();
             services.AddRazorPages();
-            //      services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(Startup));
             services.AddScoped<EfCoreSurveysRepository>();
             services.AddScoped<IManageSurveysService, ManageSurveysService>();
 
