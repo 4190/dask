@@ -15,6 +15,8 @@ using Dask.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Dask
 {
@@ -26,6 +28,7 @@ namespace Dask
         }
 
         public IConfiguration Configuration { get; }
+        public Dictionary<string, string> configDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("startupConfig.json"));
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -77,9 +80,9 @@ namespace Dask
             });
         }
 
-            // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
-            {
+        {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -112,7 +115,6 @@ namespace Dask
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             var roleCheck = await RoleManager.RoleExistsAsync("Admin");
             var userRoleCheck = await RoleManager.RoleExistsAsync("User");
@@ -123,7 +125,8 @@ namespace Dask
             }
             if (!userRoleCheck)
             {
-                 await RoleManager.CreateAsync(new IdentityRole("User"));
+                await RoleManager.CreateAsync(new IdentityRole("User"));
+
             }
 
             await CreateAdminAccountIfDoesntExist(serviceProvider);
@@ -135,20 +138,21 @@ namespace Dask
         {
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            if (await UserManager.FindByNameAsync("admin@gmail.com") != null)
+
+            if (await UserManager.FindByNameAsync(configDictionary["adminUserName"]) != null)
             {
-                ApplicationUser user = await UserManager.FindByNameAsync("admin@gmail.com");
-                await UserManager.AddToRoleAsync(user, "Admin");
+                ApplicationUser user = await UserManager.FindByNameAsync(configDictionary["adminUserName"]);
+                await UserManager.AddToRoleAsync(user, configDictionary["adminRoleName"]);
             }
             else
             {
                 ApplicationUser adminUser = new ApplicationUser()
                 {
-                    UserName = "admin@gmail.com",
-                    Email = "admin@gmail.com"
+                    UserName = configDictionary["adminUserName"],
+                    Email = configDictionary["adminUserEmail"]
                 };
-                await UserManager.CreateAsync(adminUser, "admin1");
-                await UserManager.AddToRoleAsync(adminUser, "Admin");
+                await UserManager.CreateAsync(adminUser, configDictionary["adminPassword"]);
+                await UserManager.AddToRoleAsync(adminUser, configDictionary["adminRoleName"]);
             }
         }
     }

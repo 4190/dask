@@ -1,0 +1,18 @@
+{
+  "passwordRequireDigit": "false",
+  "passwordRequireLowercase": "false",
+  "passwordRequireNonAlphanumeric": "false",
+  "passwordRequireUppercase": "false",
+  "passwordRequiredLength": "6",
+  "passwordRequiredUniqueChars": "0",
+  "defaultLockoutTimeSpan": "5",
+  "maxFailedAccessAttempts": "5",
+  "lockoutAllowedForNewUsers": "true",
+  "allowedUserNameCharacters": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+",
+  "requireUniqueEmail": "true",
+  "adminUserName": "admin@gmail.com",
+  "adminUserEmail": "admin@gmail.com",
+  "adminPassword": "admin1",
+  "adminRoleName": "Admin"
+}
+
