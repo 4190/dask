@@ -100,7 +100,7 @@ namespace Dask.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                ApplicationUser user = _userManager.FindByNameAsync(model.Username).Result;
+                ApplicationUser user = _userManager.FindByEmailAsync(model.Email).Result;
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
