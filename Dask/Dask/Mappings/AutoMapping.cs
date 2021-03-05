@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Dask.DTO;
 using Dask.Models;
 
 
@@ -13,6 +15,7 @@ namespace TSearch.Controllers
     {
         public AutoMapping()
         {
+            CreateMap<Survey, SurveyDTO>().ReverseMap();
             //CreateMap<model, modelDTO>().ReverseMap();
             //CreateMap<model, modelDTO>()
             //    .ForMember(dest => dest.destinationProperty, opt => opt.MapFrom(src => src.sourceProperty))

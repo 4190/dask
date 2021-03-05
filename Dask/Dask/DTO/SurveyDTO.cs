@@ -9,7 +9,7 @@ using Dask.Models;
 
 namespace Dask.DTO
 {
-    public class Survey : IEntity
+    public class SurveyDTO : IEntity
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Title is required!")]
