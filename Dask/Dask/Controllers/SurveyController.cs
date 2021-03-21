@@ -16,12 +16,7 @@ namespace Dask.Controllers
         {
             this._surveysService = surveyService;
         }
-        public IActionResult Index()
-        {
-            var item = _surveysService.GetAllSurveys();
 
 
-            return View();
-        }
     }
 }
