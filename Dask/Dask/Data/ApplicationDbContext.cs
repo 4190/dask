@@ -11,6 +11,7 @@ namespace Dask.Data
     {
 
         public DbSet<Survey> Surveys { get; set; }
+        public DbSet<Question> Questions { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
