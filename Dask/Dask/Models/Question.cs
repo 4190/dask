@@ -10,8 +10,8 @@ namespace Dask.Models
     {
         public int Id { get; set; }
         public string QuestionName { get; set; }
-        public Survey Survey { get; set; }
-        public string SurveyId { get; set; }
+        public Survey Survey { get; set; } // It creates SurveyId, init?
+
 
 
     }

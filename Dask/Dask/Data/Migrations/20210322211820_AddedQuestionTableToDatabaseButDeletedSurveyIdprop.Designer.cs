@@ -4,14 +4,16 @@ using Dask.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Dask.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210322211820_AddedQuestionTableToDatabaseButDeletedSurveyIdprop")]
+    partial class AddedQuestionTableToDatabaseButDeletedSurveyIdprop
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,12 +96,15 @@ namespace Dask.Data.Migrations
                     b.Property<string>("QuestionName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SurveyId")
+                    b.Property<string>("SurveyId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SurveyId1")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SurveyId");
+                    b.HasIndex("SurveyId1");
 
                     b.ToTable("Questions");
                 });
@@ -265,7 +270,7 @@ namespace Dask.Data.Migrations
                 {
                     b.HasOne("Dask.Models.Survey", "Survey")
                         .WithMany()
-                        .HasForeignKey("SurveyId");
+                        .HasForeignKey("SurveyId1");
                 });
 
             modelBuilder.Entity("Dask.Models.Survey", b =>

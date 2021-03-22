@@ -15,7 +15,7 @@ namespace Dask.DTO
         [StringLength(1000,ErrorMessage ="Question can be 1000 characters long!")]        
         public string QuestionName { get; set; }
         public Survey Survey { get; set; } // It creates SurveyId, init?
-        public string SurveyId { get; set; } 
+       
 
     }
 }
