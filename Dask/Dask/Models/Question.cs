@@ -9,10 +9,8 @@ namespace Dask.Models
     public class Question : IEntity
     {
         public int Id { get; set; }
-        public string QuestionName { get; set; }
+        public string QuestionText { get; set; }
         public Survey Survey { get; set; } // It creates SurveyId, init?
-
-
-
+        public int SurveyId { get; set; }
     }
 }

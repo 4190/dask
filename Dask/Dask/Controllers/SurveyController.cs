@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Dask.Services;
+
+using Dask.DTO;
 using Dask.Models;
+using Dask.Services;
 using Dask.ViewModels;
 
 
@@ -16,7 +19,7 @@ namespace Dask.Controllers
 
         public SurveyController(IManageSurveysService surveyService)
         {
-            this._surveysService = surveyService;
+            _surveysService = surveyService;
         }   
         public async Task<IActionResult> Index()
         {
@@ -28,5 +31,17 @@ namespace Dask.Controllers
             return View(model);
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(SurveyDTO model)
+        {
+            await _surveysService.SaveToDB(model);
+
+            return Content("ok"); //TODO
+        }
     }
 }
