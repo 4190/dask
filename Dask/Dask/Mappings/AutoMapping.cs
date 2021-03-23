@@ -16,6 +16,7 @@ namespace TSearch.Controllers
         public AutoMapping()
         {
             CreateMap<Survey, SurveyDTO>().ReverseMap();
+            CreateMap<Question, QuestionDTO>().ReverseMap();
             //CreateMap<model, modelDTO>().ReverseMap();
             //CreateMap<model, modelDTO>()
             //    .ForMember(dest => dest.destinationProperty, opt => opt.MapFrom(src => src.sourceProperty))
