@@ -21,7 +21,8 @@ namespace Dask.Controllers
         {
             _surveysService = surveyService;
         }   
-        public async Task<IActionResult> Index()
+        
+        public async Task<IActionResult> Surveys()
         {
             var item = await _surveysService.GetAllSurveys();
             var model = new SurveyViewModel()
@@ -41,7 +42,7 @@ namespace Dask.Controllers
         {
             await _surveysService.SaveToDB(model);
 
-            return Content("ok"); //TODO
+            return RedirectToAction("Surveys"); //TODO
         }
     }
 }
